@@ -13,11 +13,12 @@ lines in the file title.basics.tsv
 
 
 def count_titles():
-    f = open('title.basics.tsv')    
-    
-
+    f = open('title.basics.tsv')
+    count = 0
+    for line in f:
+        count += 1
     f.close()
-    return 0
+    return count
 
 
 """
@@ -33,10 +34,13 @@ and then use an IF statement inside the loop to selectively count the titles.
 """
 def count_adult_titles():
     f = open('title.basics.tsv')
-    
-    
+    count = 0
+    for line in f:
+        fields = line.strip().split()
+        if len(fields) > 4 and fields[4] == '1':
+            count += 1
     f.close()
-    return 0
+    return count
 
 """
 Exercise 3
@@ -54,9 +58,13 @@ It belongs to 3 genres: Action, Adventure, and Sci-Fi
 """
 def count_romance_titles():
     f = open('title.basics.tsv')
-
+    count = 0
+    for line in f:
+        fields = line.strip().split()
+        if len(fields) > 8 and 'Romance' in fields[8].split(','):
+            count += 1
     f.close()
-    return 0
+    return count
 
 """
 Exercise 4
@@ -76,7 +84,11 @@ Note that titles are case sentitive and words are separated by underscore (_)
 """
 def find_title_id(movie_title):
     f = open('title.basics.tsv')
-
+    for line in f:
+        fields = line.strip().split()
+        if len(fields) > 2 and fields[2] == movie_title:
+            f.close()
+            return fields[0]
     f.close()
     return ''
 
@@ -99,12 +111,32 @@ Note that titles are case sentitive and words are separated by underscore (_)
 
 """
 def get_rating(movie_title):
-
-    f = open('title.ratings.tsv')
-
-            
+    # First, find the title id from title.basics.tsv
+    title_id = ''
+    f = open('title.basics.tsv')
+    for line in f:
+        fields = line.strip().split()
+        if len(fields) > 2 and fields[2] == movie_title:
+            title_id = fields[0]
+            break
     f.close()
-    return -1
+    if title_id == '':
+        return -1.0
+
+    # Now, look up the rating in title.ratings.tsv
+    f = open('title.ratings.tsv')
+    for line in f:
+        fields = line.strip().split()
+        if len(fields) > 1 and fields[0] == title_id:
+            try:
+                rating = float(fields[1])
+                f.close()
+                return rating
+            except:
+                f.close()
+                return -1.0
+    f.close()
+    return -1.0
 
 
 ### DO NOT MODIFY ANYTHING BELOW THIS LINE ###
