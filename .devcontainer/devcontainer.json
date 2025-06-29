@@ -1,6 +1,5 @@
 {
-  "name": "env3d-lessons python devcontainer",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "env3d-lessons python devcontainer",  
   "postCreateCommand": "pip install gradio",  
   "features": {},
   "postAttachCommand": "rm -rf ~/.vscode-remote/extensions/github.copilot* && chmod -w ~/.vscode-remote/extensions && exit",
